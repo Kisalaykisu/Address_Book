@@ -1,41 +1,86 @@
 /*
-   Ability to add a new
-Contact to Address Book - Use Console to add person details from
-AddressBookMain class
-- Use Object Oriented Concepts to manage
-relationship between AddressBook and Contact
-Person
+   Ability to edit
+existing contact
+person using their
+name
 
  */
 
 package com.brigdelabz;  //Package
 
 import java.util.HashMap;  //import HAshmap
+import java.util.Locale;  // import Locale
 import java.util.Scanner;  // import Scanner
 
 public class Address_Book {
     static String name;
     static boolean is_Running=false;  // initial the condition
+    static  HashMap<String,ContactInfo> addressBook = new HashMap<>(); // Make Hashmap obj
 
-    public static void main(String[] args){  //entry point of program
+    public static void main(String[] args){ // initial the condition
 
+        Address_Book addressBookObj = new Address_Book();
         System.out.println("Welcome to the ADDRESS BOOK");
-        HashMap<String,ContactInfo> addressBook = new HashMap<>();  // Make Hashmap object
+
 
         while (!is_Running) {
-            Scanner scanner = new Scanner(System.in);  // Make Scanner obj
-            System.out.println("Enter 1 to create a new contact and 2 to exit");
-            int choice = scanner.nextInt();  // Input int
+            Scanner scanner = new Scanner(System.in); // Make Scanner obj
+            System.out.println("Enter 1 to create a new contact , 2 to exit , 3 to edit existing contact");
+            int choice = scanner.nextInt(); // Input Float
             if (choice == 1) {
                 ContactInfo contact = new ContactInfo();
-                contact.setContactInfo();  // set() is used take a parameter and assign to the new variable
-                name = contact.firstName + " " + contact.lastName;  //concat
-                addressBook.put(name, contact);  // put() method of HashMap is used to insert a mapping into a map
+                contact.setContactInfo(); // set() is used take a parameter and assign to the new variable
+                name = contact.firstName.toUpperCase(Locale.ROOT) + " " + contact.lastName.toUpperCase(Locale.ROOT);
+                addressBook.put(name, contact); // put() method of HashMap is used to insert a mapping into a map
                 addressBook.get(name).displayContactInfo(); // get() used to return the element at a given index
             }else if (choice==2){
                 is_Running = true;
+            }else if (choice==3){
+                addressBookObj.editContact();
+                addressBook.get(name).displayContactInfo();
             }
         }
+    }
+
+
+    public void editContact(){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter your first name and Last name  : ");
+        String name = sc.nextLine().toUpperCase(Locale.ROOT);
+        if(addressBook.containsKey(name)) {
+            System.out.println("Enter the number you want to edit\n1.Address\n2.City\n3.State\n4.Zipcode\n5.Phone Number\n6.Email");
+            int number = sc.nextInt();
+            sc.nextLine();
+            switch (number){
+                case 1 -> {
+                    System.out.println("Enter new Address");
+                    addressBook.get(name).setAddress(sc.nextLine());
+                }
+                case 2 -> {
+                    System.out.println("Enter new City");
+                    addressBook.get(name).setCity(sc.nextLine());
+                }
+                case 3 -> {
+                    System.out.println("Enter new State");
+                    addressBook.get(name).setState(sc.nextLine());
+                }
+                case 4 -> {
+                    System.out.println("Enter new ZipCode");
+                    addressBook.get(name).setZipcode(sc.nextLine());
+                }
+                case 5 -> {
+                    System.out.println("Enter new Phone number");
+                    addressBook.get(name).setPhoneNo(sc.nextLine());
+                }
+                case 6 -> {
+                    System.out.println("Enter new Email");
+                    addressBook.get(name).setEmail(sc.nextLine());
+                }
+                default -> System.out.println("Please input a valid number (1-6)");
+            }
+        }else System.out.println("Contact not found");
+
     }
 }
 
@@ -85,3 +130,4 @@ class ContactInfo{
                 "\n City: "+city+"\n State: "+state+ "\n Zipcode: "+zipcode+"\n PhoneNO: "+phoneNo+"\n Email: "+email+"\n");
     }
 }
+
