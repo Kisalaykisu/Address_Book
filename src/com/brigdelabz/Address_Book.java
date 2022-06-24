@@ -1,8 +1,7 @@
 /*
-   Ability to edit
-existing contact
-person using their
-name
+   Ability to delete a
+person using
+person's name - Use Console to delete a person
 
  */
 
@@ -14,10 +13,10 @@ import java.util.Scanner;  // import Scanner
 
 public class Address_Book {
     static String name;
-    static boolean is_Running=false;  // initial the condition
+    static boolean is_Running=false; // initial the condition
     static  HashMap<String,ContactInfo> addressBook = new HashMap<>(); // Make Hashmap obj
 
-    public static void main(String[] args){ // initial the condition
+    public static void main(String[] args){  //Entry Point of program
 
         Address_Book addressBookObj = new Address_Book();
         System.out.println("Welcome to the ADDRESS BOOK");
@@ -25,8 +24,8 @@ public class Address_Book {
 
         while (!is_Running) {
             Scanner scanner = new Scanner(System.in); // Make Scanner obj
-            System.out.println("Enter 1 to create a new contact , 2 to exit , 3 to edit existing contact");
-            int choice = scanner.nextInt(); // Input Float
+            System.out.println(" Enter 1 to create a new contact \n 2 to exit \n 3 to edit existing contact \n 4 to delete an existing contact");
+            int choice = scanner.nextInt(); // Input Int
             if (choice == 1) {
                 ContactInfo contact = new ContactInfo();
                 contact.setContactInfo(); // set() is used take a parameter and assign to the new variable
@@ -38,8 +37,20 @@ public class Address_Book {
             }else if (choice==3){
                 addressBookObj.editContact();
                 addressBook.get(name).displayContactInfo();
+            }else if (choice==4){
+                addressBookObj.deleteContact();
             }
         }
+    }
+    public void deleteContact(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the first and last name of the contact you want to delete from AddressBook: ");
+        String name = scanner.nextLine().toUpperCase(Locale.ROOT);
+        if (addressBook.containsKey(name)) {
+            addressBook.remove(name);
+            System.out.println("Contact removed");
+        }else
+            System.out.println("Contact not found");
     }
 
 
@@ -130,4 +141,3 @@ class ContactInfo{
                 "\n City: "+city+"\n State: "+state+ "\n Zipcode: "+zipcode+"\n PhoneNO: "+phoneNo+"\n Email: "+email+"\n");
     }
 }
-
