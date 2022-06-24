@@ -1,13 +1,10 @@
 /*
-   Ability to create a Contacts in Address
-Book with first and last names, address,
-city, state, zip, phone number and
-email...
-- Program is written using IDE like IntelliJ
-- Every UC is in a separate Git Branch and then merged with main
-- Naming Convention, Indentation, etc Code Hygiene will be checked during
-Review
-- Git Check In Comments and Version History will be monitored
+   Ability to add a new
+Contact to Address Book - Use Console to add person details from
+AddressBookMain class
+- Use Object Oriented Concepts to manage
+relationship between AddressBook and Contact
+Person
 
  */
 
@@ -18,23 +15,27 @@ import java.util.Scanner;  // import Scanner
 
 public class Address_Book {
     static String name;
+    static boolean is_Running=false;  // initial the condition
 
-    public static void main(String[] args){   // Entry point of program
+    public static void main(String[] args){  //entry point of program
 
         System.out.println("Welcome to the ADDRESS BOOK");
-        HashMap<String,ContactInfo> addressBook = new HashMap<>();  //Hashmap object creation
+        HashMap<String,ContactInfo> addressBook = new HashMap<>();  // Make Hashmap object
 
-        Scanner scanner = new Scanner(System.in); //Make scanner obj
-        System.out.println("Enter 1 to create a new contact");
-        int choice = scanner.nextInt(); // Input int
-        if (choice==1){
-            ContactInfo contact = new ContactInfo();
-            contact.setContactInfo();
-            name = contact.firstName + " " + contact.lastName;
-            addressBook.put(name,contact);  // put() method of HashMap is used to insert a mapping into a map
-            addressBook.get(name).displayContactInfo(); // used to return the element at a given index
+        while (!is_Running) {
+            Scanner scanner = new Scanner(System.in);  // Make Scanner obj
+            System.out.println("Enter 1 to create a new contact and 2 to exit");
+            int choice = scanner.nextInt();  // Input int
+            if (choice == 1) {
+                ContactInfo contact = new ContactInfo();
+                contact.setContactInfo();  // set() is used take a parameter and assign to the new variable
+                name = contact.firstName + " " + contact.lastName;  //concat
+                addressBook.put(name, contact);  // put() method of HashMap is used to insert a mapping into a map
+                addressBook.get(name).displayContactInfo(); // get() used to return the element at a given index
+            }else if (choice==2){
+                is_Running = true;
+            }
         }
-
     }
 }
 
@@ -80,8 +81,7 @@ class ContactInfo{
         setEmail(sc.nextLine());
     }
     public void displayContactInfo(){
-        System.out.print("First Name: "+firstName+"\n Last Name: "+lastName+"\n Address: "+address+
-                "\n City: "+city+"\n State: "+state+ "\n Zipcode: "+zipcode+"\n PhoneNO: "+phoneNo+"\n Email: "+email);
+        System.out.print(" First Name: "+firstName+"\n Last Name: "+lastName+"\n Address: "+address+
+                "\n City: "+city+"\n State: "+state+ "\n Zipcode: "+zipcode+"\n PhoneNO: "+phoneNo+"\n Email: "+email+"\n");
     }
-
 }
