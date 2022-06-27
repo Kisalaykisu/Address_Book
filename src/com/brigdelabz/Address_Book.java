@@ -1,9 +1,10 @@
 /*
-Ability to add multiple
-person to Address Book
-- Use Console to add person details one at a time
-- Use Collection Class to maintain multiple
-contact persons in Address Book
+ Refactor to add multiple
+ Address Book to the
+ System. Each Address Book
+ has a unique Name
+ - Use Console to add new Address Book
+ - Maintain Dictionary of Address Book Name to Address Book.
 
  */
 
@@ -15,57 +16,86 @@ import java.util.Scanner;  // import Scanner
 
 public class Address_Book {
     static String name;
-    static boolean is_Running=false;   // Initialize the condition
-    static  HashMap<String,ContactInfo> addressBook = new HashMap<>();  // // Make Hashmap obj
+    static boolean is_Running = false;
+    HashMap<String, ContactInfo> addressBook;
 
-    public static void main(String[] args){ //Entry Point of program
+    public Address_Book() {
+        addressBook = new HashMap<>();
+    }
 
-        Address_Book addressBookObj = new Address_Book();
+    //Driver code
+    public static void main(String[] args) {
         System.out.println("Welcome to the ADDRESS BOOK");
 
+        HashMap<String, Address_Book> multiAddressBook = new HashMap<>();
+        Address_Book addressBookObj1 = new Address_Book(); //Obj1 creation
+        Address_Book addressBookObj2 = new Address_Book();  //Obj2 creation
+        Address_Book addressBookObj3 = new Address_Book();  //Obj3 Creation
+        multiAddressBook.put("AB1", addressBookObj1);  // put() method of HashMap is used to insert a mapping into a map
+        multiAddressBook.put("AB2", addressBookObj2);
+        multiAddressBook.put("AB3", addressBookObj3);
 
         while (!is_Running) {
-            Scanner scanner = new Scanner(System.in); // Make Scanner obj
+            Scanner scanner = new Scanner(System.in);  //Make scanner obj
+            System.out.println("Enter 1 ,2 ,3 for diff addressBook and 4 to exit");
+            int option = scanner.nextInt(); //Input int
+            String key = null;
+            switch (option) {
+                case 1:
+                    key = "AB1";
+                    break;
+                case 2:
+                    key = "AB2";
+                    break;
+                case 3:
+                    key = "AB3";
+                    break;
+            }
+            if (option == 4) break;
             System.out.println(" Enter 1 to create a new contact \n 2 to exit \n 3 to edit existing contact \n 4 to delete an existing contact");
-            int choice = scanner.nextInt();  //Input int
+            int choice = scanner.nextInt();
             if (choice == 1) {
                 ContactInfo contact = new ContactInfo();
-                contact.setContactInfo(); // set() is used take a parameter and assign to the new variable
+                contact.setContactInfo();
                 name = contact.firstName.toUpperCase(Locale.ROOT) + " " + contact.lastName.toUpperCase(Locale.ROOT);
-                addressBook.put(name, contact); // put() method of HashMap is used to insert a mapping into a map
-                addressBook.get(name).displayContactInfo();// get() used to return the element at a given index
-            }else if (choice==2){
+                multiAddressBook.get(key).addressBook.put(name, contact); // put() method of HashMap is used to insert a mapping into a map
+                multiAddressBook.get(key).addressBook.get(name).displayContactInfo(); // get() used to return the element at a given index
+            } else if (choice == 2) {
                 is_Running = true;
-            }else if (choice==3){
-                addressBookObj.editContact();
-                addressBook.get(name).displayContactInfo();
-            }else if (choice==4){
-                addressBookObj.deleteContact();
+            } else if (choice == 3) {
+                multiAddressBook.get(key).editContact();
+            } else if (choice == 4) {
+                multiAddressBook.get(key).deleteContact();
             }
         }
     }
-    public void deleteContact(){
+
+    /**
+     * Method to delete an existing contact
+     */
+    public void deleteContact() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the first and last name of the contact you want to delete from AddressBook: ");
         String name = scanner.nextLine().toUpperCase(Locale.ROOT);
         if (addressBook.containsKey(name)) {
             addressBook.remove(name);
             System.out.println("Contact removed");
-        }else
+        } else
             System.out.println("Contact not found");
     }
 
-
-    public void editContact(){
-
+    /**
+     * Method to edit an existing contact
+     */
+    public void editContact() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter your first name and Last name  : ");
         String name = sc.nextLine().toUpperCase(Locale.ROOT);
-        if(addressBook.containsKey(name)) {
+        if (addressBook.containsKey(name)) {
             System.out.println("Enter the number you want to edit\n1.Address\n2.City\n3.State\n4.Zipcode\n5.Phone Number\n6.Email");
             int number = sc.nextInt();
             sc.nextLine();
-            switch (number){
+            switch (number) {
                 case 1 -> {
                     System.out.println("Enter new Address");
                     addressBook.get(name).setAddress(sc.nextLine());
@@ -92,39 +122,52 @@ public class Address_Book {
                 }
                 default -> System.out.println("Please input a valid number (1-6)");
             }
-        }else System.out.println("Contact not found");
-
+            addressBook.get(name).displayContactInfo();
+        } else System.out.println("Contact not found");
     }
 }
 
-class ContactInfo{
-    String firstName,lastName,address,city,state,zipcode,phoneNo,email;
+/**
+ * Template class for creating a contact
+ */
+class ContactInfo {
+    String firstName, lastName, address, city, state, zipcode, phoneNo, email;
 
-    public void setFirstName(String firstName){
-        this.firstName=firstName;
-    }
-    public void setLastName(String lastName){
-        this.lastName=lastName;
-    }
-    public void setAddress(String address){
-        this.address=address;
-    }
-    public void setCity(String city){
-        this.city=city;
-    }
-    public void setState(String state){
-        this.state=state;
-    }
-    public void setZipcode(String zipcode){
-        this.zipcode=zipcode;
-    }
-    public void setPhoneNo(String phoneNo){
-        this.phoneNo=phoneNo;
-    }
-    public void setEmail(String email){
-        this.email=email;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Method to save contact details
+     */
     public void setContactInfo() {
 
         Scanner sc = new Scanner(System.in);
@@ -138,8 +181,12 @@ class ContactInfo{
         setPhoneNo(sc.nextLine());
         setEmail(sc.nextLine());
     }
-    public void displayContactInfo(){
-        System.out.print(" First Name: "+firstName+"\n Last Name: "+lastName+"\n Address: "+address+
-                "\n City: "+city+"\n State: "+state+ "\n Zipcode: "+zipcode+"\n PhoneNO: "+phoneNo+"\n Email: "+email+"\n");
+
+    /**
+     * Method to display the contact details
+     */
+    public void displayContactInfo() {
+        System.out.print(" First Name: " + firstName + "\n Last Name: " + lastName + "\n Address: " + address +
+                "\n City: " + city + "\n State: " + state + "\n Zipcode: " + zipcode + "\n PhoneNO: " + phoneNo + "\n Email: " + email + "\n");
     }
 }
