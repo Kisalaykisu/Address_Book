@@ -1,7 +1,9 @@
 /*
-   Ability to delete a
-person using
-person's name - Use Console to delete a person
+Ability to add multiple
+person to Address Book
+- Use Console to add person details one at a time
+- Use Collection Class to maintain multiple
+contact persons in Address Book
 
  */
 
@@ -13,10 +15,10 @@ import java.util.Scanner;  // import Scanner
 
 public class Address_Book {
     static String name;
-    static boolean is_Running=false; // initial the condition
-    static  HashMap<String,ContactInfo> addressBook = new HashMap<>(); // Make Hashmap obj
+    static boolean is_Running=false;   // Initialize the condition
+    static  HashMap<String,ContactInfo> addressBook = new HashMap<>();  // // Make Hashmap obj
 
-    public static void main(String[] args){  //Entry Point of program
+    public static void main(String[] args){ //Entry Point of program
 
         Address_Book addressBookObj = new Address_Book();
         System.out.println("Welcome to the ADDRESS BOOK");
@@ -25,13 +27,13 @@ public class Address_Book {
         while (!is_Running) {
             Scanner scanner = new Scanner(System.in); // Make Scanner obj
             System.out.println(" Enter 1 to create a new contact \n 2 to exit \n 3 to edit existing contact \n 4 to delete an existing contact");
-            int choice = scanner.nextInt(); // Input Int
+            int choice = scanner.nextInt();  //Input int
             if (choice == 1) {
                 ContactInfo contact = new ContactInfo();
                 contact.setContactInfo(); // set() is used take a parameter and assign to the new variable
                 name = contact.firstName.toUpperCase(Locale.ROOT) + " " + contact.lastName.toUpperCase(Locale.ROOT);
                 addressBook.put(name, contact); // put() method of HashMap is used to insert a mapping into a map
-                addressBook.get(name).displayContactInfo(); // get() used to return the element at a given index
+                addressBook.get(name).displayContactInfo();// get() used to return the element at a given index
             }else if (choice==2){
                 is_Running = true;
             }else if (choice==3){
